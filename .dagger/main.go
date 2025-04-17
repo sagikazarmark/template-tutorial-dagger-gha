@@ -27,6 +27,7 @@ func New(
 	}
 }
 
+// Build the application and run all checks (tests, linters).
 func (m *Tutorial) Check(ctx context.Context) error {
 	p := pool.New().WithErrors().WithContext(ctx)
 
@@ -49,6 +50,7 @@ func (m *Tutorial) Check(ctx context.Context) error {
 	return p.Wait()
 }
 
+// Build the application.
 func (m *Tutorial) Build(
 	// Target platform in "[os]/[platform]/[version]" format (e.g., "darwin/arm64/v7", "windows/amd64", "linux/arm64").
 	//
@@ -64,10 +66,12 @@ func (m *Tutorial) Build(
 	return dag.Go().Build(m.Source, opts)
 }
 
+// Run tests.
 func (m *Tutorial) Test() *dagger.Container {
 	return dag.Go().WithSource(m.Source).Exec([]string{"go", "test", "-race", "-v", "-shuffle=on", "./..."})
 }
 
+// Run linters.
 func (m *Tutorial) Lint() *dagger.Container {
 	return dag.GolangciLint().Run(m.Source)
 }
