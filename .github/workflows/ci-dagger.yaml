@@ -14,10 +14,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Get Dagger version
+        id: dagger_version
+        uses: sagikazarmark/dagger-version-action
+
       - name: Run pipeline
         uses: dagger/dagger-for-github@e5153f5610d82ac9f3f848f3a25ad9d696641068 # v7.0.1
         with:
-          version: latest
+          version: ${{ steps.dagger_version.outputs.version }}
           verb: call
           args: test
 
@@ -29,10 +33,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Get Dagger version
+        id: dagger_version
+        uses: sagikazarmark/dagger-version-action
+
       - name: Run pipeline
         uses: dagger/dagger-for-github@e5153f5610d82ac9f3f848f3a25ad9d696641068 # v7.0.1
         with:
-          version: latest
+          version: ${{ steps.dagger_version.outputs.version }}
           verb: call
           args: lint
 
@@ -44,10 +52,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Get Dagger version
+        id: dagger_version
+        uses: sagikazarmark/dagger-version-action
+
       - name: Run pipeline
         uses: dagger/dagger-for-github@e5153f5610d82ac9f3f848f3a25ad9d696641068 # v7.0.1
         with:
-          version: latest
+          version: ${{ steps.dagger_version.outputs.version }}
           verb: call
           args: check
 
@@ -56,10 +68,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Get Dagger version
+        id: dagger_version
+        uses: sagikazarmark/dagger-version-action
+
       - name: Run pipeline
         uses: dagger/dagger-for-github@e5153f5610d82ac9f3f848f3a25ad9d696641068 # v7.0.1
         with:
-          version: latest
+          version: ${{ steps.dagger_version.outputs.version }}
           module: github.com/${{ github.repository }}@${{ github.ref }}
           verb: call
           args: check
